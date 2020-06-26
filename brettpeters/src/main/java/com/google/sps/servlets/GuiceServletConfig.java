@@ -14,19 +14,26 @@
 
 package com.google.sps.servlets;
 
-import java.io.IOException;
-import javax.inject.Singleton;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import com.google.inject.Guice;
+import com.google.inject.Injector;
+import com.google.inject.servlet.GuiceServletContextListener;
+import com.google.inject.servlet.ServletModule;
 
-/** Servlet that returns some example content. TODO: modify this file to handle comments data */
-@Singleton
-public class DataServlet extends HttpServlet {
+/**
+ * Configure servlets.
+ */
+public class GuiceServletConfig extends GuiceServletContextListener {
 
   @Override
-  public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    response.setContentType("text/html;");
-    response.getWriter().println("<h1>Hello Guice!</h1>");
+  protected Injector getInjector() {
+    ServletModule servletModule =
+        new ServletModule() {
+          @Override
+          protected void configureServlets() {
+            serve("/data").with(DataServlet.class);
+          }
+        };
+
+    return Guice.createInjector(servletModule);
   }
 }

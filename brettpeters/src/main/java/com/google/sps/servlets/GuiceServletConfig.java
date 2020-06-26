@@ -18,6 +18,7 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.servlet.GuiceServletContextListener;
 import com.google.inject.servlet.ServletModule;
+import com.google.sps.user.UserModule;
 
 /**
  * Configure servlets.
@@ -34,6 +35,6 @@ public class GuiceServletConfig extends GuiceServletContextListener {
           }
         };
 
-    return Guice.createInjector(servletModule);
+    return Guice.createInjector(servletModule, new UserModule());
   }
 }

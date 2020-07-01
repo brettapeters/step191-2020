@@ -186,4 +186,25 @@
       </plugin>
     </plugins>
   </build>
+
+  <!-- Debug profile -->
+  <profiles>
+    <profile>
+      <id>debug</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>com.google.cloud.tools</groupId>
+            <artifactId>appengine-maven-plugin</artifactId>
+            <configuration>
+              <jvmFlags>
+                <jvmFlag>-Xdebug</jvmFlag>
+                <jvmFlag>-Xrunjdwp:transport=dt_socket,address=8000,server=y,suspend=n</jvmFlag>
+              </jvmFlags>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
 </project>

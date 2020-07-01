@@ -1,14 +1,9 @@
 package com.google.sps.servlets;
 
-import static com.google.inject.Guice.createInjector;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import com.google.inject.Inject;
 import com.google.inject.Provider;
-import com.google.inject.name.Named;
-import com.google.inject.testing.fieldbinder.Bind;
-import com.google.inject.testing.fieldbinder.BoundFieldModule;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.http.HttpServletRequest;
@@ -31,8 +26,6 @@ public class DataServletTest {
     @Rule
     public final MockitoRule mockito = MockitoJUnit.rule();
 
-    @Bind
-    @Named("username")
     @Mock
     private Provider<String> userNameProvider;
 
@@ -43,12 +36,11 @@ public class DataServletTest {
     @Mock
     private PrintWriter printWriter;
 
-    @Inject
     private DataServlet dataServlet;
 
     @Before
     public void setUp() throws IOException {
-        createInjector(BoundFieldModule.of(this)).injectMembers(this);
+        dataServlet = new DataServlet(userNameProvider);
         when(userNameProvider.get()).thenReturn("Test");
         when(httpServletResponse.getWriter()).thenReturn(printWriter);
     }
